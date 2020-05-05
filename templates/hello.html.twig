@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Hello {{prenom}} {% endblock %}
+
+{% block body %}
+    <h1>
+        Hello {{prenom}}
+    </h1>
+
+    <h2>Liste des élèves ({{eleves | length}})</h2>
+
+    {% for eleve in eleves %}
+      <p>{{eleve.prenom}} {{eleve.nom | upper}} <span>Age: {{eleve.age}}</span></p>
+    {% endfor %}
+  
+    <h2>Articles ({{articles | length}})</h2>
+    {% for article in articles %}
+        <p>{{article.title}}</p>
+    {% endfor %}
+    <h3>Tableau assoc</h3>
+
+    {% for key, value in formateur %}
+        <p> {{ key }} : {{ value }}
+    {% endfor %}
+
+    <p><strong>Prénom: </strong>{{formateur.prenom}}</p>
+    <p><strong>Nom: </strong>{{formateur.nom | upper}}</p>
+
+    <h3>Itération numerique</h3>
+    {% for x in 0..10 %}
+        <p>Itération: {{ x }}</p>
+    {% endfor %}
+
+    <h3>Itération (foreach)</h3>
+    {% for p in prenoms %}
+        <p>{{ p }}</p>
+    {% endfor %}
+
+{% endblock %}
