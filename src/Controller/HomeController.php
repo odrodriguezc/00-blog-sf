@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,36 +12,44 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Twig\Environment;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HomeController
+
+class HomeController extends AbstractController
 {
-    /**
-     * @Route("/test", name="test")
-     */
-    public function test(EntityManagerInterface $em, PostRepository $repository)
-    {
-        $post = $repository->find(1);
 
-        $post->setTitle('New title');
-        $em->flush();
-        dd($post);
+    /**
+     * @Route("/test/{id}", name="test")
+     */
+    public function test(EntityManagerInterface $em, PostRepository $repository, CategoryRepository $categoryRepositoy, string $id)
+    {
+
+        $category = $categoryRepositoy->find($id);
+
+        if (!$category) {
+
+            throw $this->createNotFoundException('tapez une bonne category idiot');
+        }
+
+        return $this->render(
+            'category.html.twig',
+            ['category' => $category]
+        );
     }
 
 
     /**
      * @Route("/", name="home") 
      */
-    public function index(Environment $twig): Response
+    public function index(): Response
     {
-        $html = $twig->render('home.html.twig');
-        return new Response($html);
+        return $this->render('home.html.twig');
     }
 
     /**
      * @Route("/hello/{name?World}", name="hello")
      */
-    public function hello(string $name, Environment $twig, PDO $db): Response
+    public function hello(string $name,  PDO $db): Response
     {
         $db = new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', '12345', [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
@@ -57,13 +66,12 @@ class HomeController
             ['prenom' => 'Nvidia', 'nom' => 'RTX', 'age' => 44]
         ];
 
-        $html = $twig->render('hello.html.twig', [
+        return $this->render('hello.html.twig', [
             'prenom' => $name,
             'prenoms' => $prenoms,
             'formateur' => $formateur,
             'eleves' => $eleves,
             'articles' => $data
         ]);
-        return new Response($html);
     }
 }

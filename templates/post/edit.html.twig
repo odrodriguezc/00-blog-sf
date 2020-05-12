@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Modifier un article
+{% endblock %}
+
+{% block body %}
+    <h1>modification d'un article</h1>
+    {{form_start(postForm)}}
+
+    {{form_widget(postForm)}}
+    <button type="submit">Save!</button>
+    {{form_end(postForm)}}
+
+{% endblock %}

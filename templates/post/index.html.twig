@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenu sur le blog{% endblock %}
+
+{% block body %}
+    <h1>Bienvenu sur le blog</h1>
+
+    {% for post in posts %}
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="{{post.image}}" alt="{{post.title}}">
+            <div class="card-body">
+                <h5 class="card-title">{{post.title}}</h5>
+                <p class="card-text">Dans la catégorie {{post.category.title}}, publié le {{post.createdAt | date('d/m/Y H:i')}}</p>
+                <a href="{{ path('post_show', {'id': post.id}) }}" class="btn btn-primary">Lire la suite</a>
+                <a href="{{ path('post_delete', {'id' : post.id}) }}">Supprimer</a>
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+
+{% endblock %}

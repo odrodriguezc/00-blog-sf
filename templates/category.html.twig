@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="bg-info">
+        <div class="container">
+            <h1 class="text-center">{{ category.title()}} ({{ category.posts | length }}) articles </h1>
+
+            {% for post in category.posts() %}
+                <h2>{{ post.title() }}</h2>
+                
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

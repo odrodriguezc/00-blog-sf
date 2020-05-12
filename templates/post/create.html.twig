@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="container">
+        
+        {{ form_start(postForm) }}
+        
+        {{form_widget(postForm)}}
+        
+        <button type="submit">Save!</button>
+        
+        {{ form_end(postForm) }}
+        
+    </div>
+       
+{% endblock %}
+
+
+
